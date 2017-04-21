@@ -57,18 +57,6 @@ span{
     width: 200px;
 }
 .highlight{
-	font-size: 1.8em;
+	font-size: 25px;
 	color: #1abc9c;
 }
-
-/*@media (max-width: 720px) {
-	.wrapper{
-		margin: 20px;
-	}
-	.col-1{
-	width: 100%;
-	}
-	.col-2{
-		width: 100%
-	}
-}*/
