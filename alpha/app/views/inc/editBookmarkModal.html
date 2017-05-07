@@ -1,0 +1,32 @@
+<div class="modal" ng-show="editModalRequest">
+  <div class="modal-content">
+    <div class="header">
+      <h2>Edit Bookmark</h2>
+    </div>
+    <div class="copy">
+      <form ng-submit="editBookmark(form)">
+        <div class="input-group">
+          <input type="text" class="form-input" ng-model="form.title" placeholder="Enter bookmark title">
+          <span class="error">{{titleError}}</span>
+        </div>
+
+        <div class="input-group">
+          <input type="text" class="form-input" ng-model="form.url" placeholder="Enter bookmark url">
+          <span class="error">{{titleError}}</span>
+        </div>
+
+        <div class="input-group">
+          <label for="category">Bookmark category</label>
+          <select type="text" class="form-input" id="category" ng-model="form.urlCategory">
+                    <option value="">Uncategorised</option>
+                    <option ng-repeat="category in form.urlCategories" value="{{category.$id}}">{{category.name}}</option>
+          </select>
+          <span class="error">{{categoryError}}</span>
+        </div>
+
+        <button type="sumbit" class="btn btn-submit">Synk It</button>
+      </form>
+      <button class="btn btn-cancel" ng-click="cancelModal()">Cancel</button>
+    </div>
+  </div>
+</div>

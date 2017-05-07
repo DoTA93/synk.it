@@ -1,0 +1,19 @@
+<div class="modal" ng-show="editCategoryModalRequest">
+  <div class="modal-content">
+    <div class="header">
+      <h2>Edit Category</h2>
+    </div>
+    <div class="copy">
+      <form ng-submit="editCategory()" autocomplete="off">
+        <div class="input-group">
+          <label for="name">Category name</label>
+          <input type="text" id="name" class="form-input" ng-model="formData.name" placeholder="Enter category name">
+          <span class="error">{{categoryError}}</span>
+        </div>
+
+        <button type="sumbit" class="btn btn-submit">Update Category</button>
+      </form>
+      <button class="btn btn-cancel" ng-click="cancelModal()">Cancel</button>
+    </div>
+  </div>
+</div>

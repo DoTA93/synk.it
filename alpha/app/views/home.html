@@ -1,0 +1,21 @@
+<div class="full-wrapper">
+  <div style="background-color: #fffff7">
+    <h2 class="page-header">{{pageTitle}}</h2>
+  </div>
+  <div class="row">
+    <div class="col-m8 col-l9">
+      <a ng-click="showAddBookmarkModal()" class="btn">Add</a>
+      <input type="text" placeholder="search" class="form-input" ng-model="search">
+      <div>
+        <ul class="list-item swipeIt bookmarks">
+          <li  ng-repeat="bookmark in bookmarks | filter : search">
+            <a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a> - <span>{{bookmark.categoryName}}</span> <a class="btn" ng-click="editBookmarkRequest(bookmark)">edit</a> <a class="btn" ng-click="deleteBookamrk(bookmark)">delete</a>
+          </li>
+        </ul>
+      </div> 
+    </div>
+    <div class="col-m4 col-l3"></div>
+  </div>
+  <div ng-include="'views/inc/addBookmarkModal.html'"></div>
+  <div ng-include="'views/inc/editBookmarkModal.html'"></div>
+</div>

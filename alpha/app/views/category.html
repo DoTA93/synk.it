@@ -1,0 +1,46 @@
+<div class="full-wrapper">
+  <div style="background-color: #fffff7">
+    <h2 class="page-header">{{pageTitle}}</h2>
+  </div>
+  <div class="row">
+    <div class="col-m8 col-l9">
+      <div class="action-div">
+        <a ng-click="showAddCategoryModal()" class="btn">Add</a>
+        <input type="text" class="search-input" ng-model="search" placeholder="Type to search">
+      </div> <!--/.action-div-->
+
+      <div class="column-header-container">
+        <ul class="column-header">
+          <li class="column-header__name">
+            <button class="name-button" ng-click="setOrderProperty('name')">Name<span ng-class="(orderProperty == 'name') ? 'arrow-up' : 'arrow-down'" ng-if="sortByName"></span>
+            </button>
+          </li>
+          <li class="column-header__modified"><button class="date-button" ng-click="setOrderProperty('modified')">Modified<span ng-class="(orderProperty == 'modified') ? 'arrow-up' : 'arrow-down'" ng-if="sortByDate"></span></button></li>
+          <li class="column-header__action">Action</li>
+        </ul>
+      </div>
+     
+      <div class="category-list">
+        
+        <ul  class="list-item swipeIt category">
+          
+          <li dir-paginate="category in categories | filter : search | orderBy : orderProperty | itemsPerPage: 3 as results">
+              <span class="icon icon-folder">✉</span>
+              <span class="name">{{ category.name }}</span>
+              <span class="modified">{{ category.modified }}</span>
+              <span class="action">
+                <a class="btn btn-edit btn-green-outline" ng-click="editCategoryShow(category)">edit</a>
+                <a class="btn btn-delete btn-red-outline" ng-click="deleteCategory(category)">delete</a>
+              </span>                
+          </li>
+        </ul>
+        <p class="no-results" ng-hide="results.length">No results found</p>
+        <dir-pagination-controls template-url="views/inc/dirPagination.tpl.html"></dir-pagination-controls>
+        
+      </div>
+    </div><!--/.col-m8-->
+    <div class="col-m4 col-l3"></div><!--/.col-m4-->
+  </div>
+  <div ng-include="'views/inc/addCategoryModal.html'"></div>
+  <div ng-include="'views/inc/editCategoryModal.html'"></div>
+</div>

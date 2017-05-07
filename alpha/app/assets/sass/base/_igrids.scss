@@ -1,0 +1,125 @@
+/*!
+ * iGrids v1.0 (http://www.idevia.in)
+ * Copyright 2016-2017 iDevia.
+ * Licensed under MIT (https://github.com/idevia/igrids/blob/master/license.txt)
+ */
+$mobile-screen: 320px;
+$tablet-screen: 640px;
+$wide-screen: 960px;
+
+html{
+	box-sizing: border-box;
+}
+*,*:after,*:before{
+	box-sizing: inherit;
+}
+
+.wrapper{	
+	width: 100%;
+	margin: 0 auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	@media screen and (min-width: 480px) {
+		min-width: 460px;
+	}
+	@media screen and (min-width: 800px) {
+		min-width: 780px;
+	}
+	@media screen and (min-width: $wide-screen) {
+	min-width: 940px;
+	}
+	@media screen and (min-width:1200px){
+		width: 1180px;
+	}
+
+}
+.full-wrapper{
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.row{
+	margin-left: -10px;
+	margin-right: -10px;
+	&:before,
+	&:after{
+		content: " ";
+		display: table;
+	}
+	&:after{
+		clear: both;
+	}
+}
+.row:after{
+	clear: both;
+}
+[class*='col-']{
+	width: 100%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+@for $num from 1 through 12
+	{
+		$width: percentage(1/12*$num);
+
+		.col-#{$num}
+		{
+			width: $width;
+		}
+		.col-gap-#{$num}
+		{
+			margin-left: $width;
+		}
+	}
+
+@media screen and (min-width:$mobile-screen){
+	@for $num from 1 through 12
+	{
+		$width: percentage(1/12*$num);
+		$pre: s;
+		.col-#{$pre + $num}
+		{
+			width: $width;
+		}
+		.col-gap-#{$pre + $num}
+		{
+			margin-left: $width;
+		}
+	}
+}
+
+@media screen and (min-width:$tablet-screen){
+	@for $num from 1 through 12
+	{
+		$width: percentage(1/12*$num);
+		$pre: m;
+		.col-#{$pre + $num}
+		{
+			width: $width;
+		}
+		.col-gap-#{$pre + $num}
+		{
+			margin-left: $width;
+		}
+	}
+}
+
+@media screen and (min-width:$wide-screen){
+	@for $num from 1 through 12
+	{
+		$width: percentage(1/12*$num);
+		$pre: l;
+		.col-#{$pre + $num}
+		{
+			width: $width;
+		}
+		.col-gap-#{$pre + $num}
+		{
+			margin-left: $width;
+		}
+	}
+}

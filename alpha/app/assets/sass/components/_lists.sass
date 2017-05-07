@@ -1,0 +1,95 @@
+.page-header
+  padding-top: 20px
+.column-header
+  padding: 0
+  list-style: none
+  border-bottom: 1px solid #E6E8EB
+  margin: 0
+  padding-top: 20px
+  padding-bottom: 5px
+  font-size: 13px
+  &:after
+    display: table
+    clear: both
+    content: ""
+
+  li
+    float: left
+    &.column-header__name
+      width: calc(50% + 60px)
+    &.column-header__modified
+      width: 25%
+    
+    button
+      padding: 0
+      outline: none
+      border: none
+      background: none
+      user-select: none
+      -webkit-appearance: button
+      cursor: pointer
+
+.list-item
+  margin: 0
+  list-style: none
+  padding: 0
+  li
+    border-bottom: 1px solid #E6E8EB
+    margin-bottom: 1px
+    padding-top: 8px
+    padding-bottom: 8px
+    color: #7A8189
+    &:last-of-type
+      border: none
+    
+    &:hover
+      .btn-edit
+        background-color: $green
+        color: #fff
+        border: 1px solid $green
+      .btn-delete
+        color: #fff
+        background-color: $red
+        border-color: $red
+
+    .btn
+      color: #7A8189 
+      border-color: #7A8189
+      border-width: 2px
+      padding: 12px 14px
+      border-radius: 5px
+      text-align: center
+      vertical-align: middle
+      font-size: 15px
+      
+    .icon
+      margin-left: 15px
+      &.icon-folder
+        color: #009688
+    .name
+      width: 50%
+      display: inline-block
+      margin-left: 10px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      vertical-align: middle
+    .modified
+      width: 25%
+      display: inline-block
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      vertical-align: middle
+
+// icons
+.icon
+  &.icon-folder
+    font-size: 28px
+    vertical-align: middle
+.arrow-up
+  &:after
+    content: '▲'
+.arrow-down
+  &:after
+    content: '▼'

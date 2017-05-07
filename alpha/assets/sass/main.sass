@@ -1,0 +1,230 @@
+@import 'igrids'
+
+@font-face 
+    font-family: 'existencelight'
+    src: url('../fonts/existence-light-webfont.eot')
+    src: url('../fonts/existence-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/existence-light-webfont.woff2') format('woff2'), url('../fonts/existence-light-webfont.woff') format('woff'), url('../fonts/existence-light-webfont.ttf') format('truetype'), url('../fonts/existence-light-webfont.svg#existencelight') format('svg')
+    font-style: normal;
+
+body
+  font-family: 'ExistenceLight'
+  margin: 0
+  padding: 0
+  font-size: 14px
+
+.spacer
+  height: 100px
+
+.site-nav
+  position: fixed
+  top: 0
+  left: 0
+  background-color: #fff
+  width: 100%
+  height: 50px
+  z-index: 999
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.1)
+.logo
+  float: left
+  height: 50px
+  padding-top: 10px
+  padding-bottom: 10px
+.nav-toggle
+  display: none
+.nav-links
+  float: right
+  li
+    display: inline-block
+    a
+      padding: 5px 10px
+      text-decoration: none
+      color: #000
+      font-weight: bold
+      letter-spacing: 1px
+
+.blue-section
+  background-color: #1E88E5
+  &:after
+    content: ""
+    display: block    
+    height: 90px
+    background-image: -webkit-linear-gradient(top left, #1e88e5, #1e88e5 50%, white 50%, white)
+    background-image: -moz-linear-gradient(top left, #1e88e5, #1e88e5 50%, white 50%, white)
+    background-image: -o-linear-gradient(top left, #1e88e5, #1e88e5 50%, white 50%, white)
+    background-image: linear-gradient(to bottom right, #1e88e5, #1e88e5 50%, white 50%, white)
+
+.white-section
+  background-color: #fff
+  &:after
+    content: ""
+    display: block    
+    height: 90px
+    background-image: -webkit-linear-gradient(top left, white, white 50%, #1E88E5 50%, #1E88E5)
+    background-image: -moz-linear-gradient(top left, white, white 50%, #1E88E5 50%, #1E88E5)
+    background-image: -o-linear-gradient(top left, white, white 50%, #1E88E5 50%, #1E88E5)
+    background-image: linear-gradient(to bottom right, white, white 50%, #1E88E5 50%, #1E88E5)
+.btn
+  color: #1e88e5
+  background-color: #fff
+  border-color: #1e88e5
+  border-width: 2px
+  padding: 10px 15px
+  text-align: center
+  vertical-align: middle
+  font-size: 15px
+  text-decoration: none
+  font-weight: bold
+  margin-top: 10px
+  display: inline-block
+
+#hero
+  padding-top: 50px
+  h1
+    font-size: 6.85rem
+    line-height: 7.14rem
+    color: #fff
+    margin-bottom: 30px
+    font-weight: 300
+    @media (max-width: 480px)
+      font-size: 6rem
+    @media (max-width: 320px)
+      font-size: 5rem
+  h2
+    color: #fff
+    font-size: 1.07rem
+    font-weight: 300
+  img
+    margin-top: 80px
+    max-width: 350px
+    @media (max-width: 639px)
+      margin-top: 0px
+.triangle
+  margin-top: 100px
+  margin-left: auto
+  margin-right: auto
+  width: 0
+  height: 0
+  border-left: 20px solid transparent
+  border-right: 20px solid transparent
+  border-top-width: 20px
+  border-top-style: solid
+  &.white
+    border-top-color: #fff
+  &.blue
+    border-top-color: #1E88E5
+
+#how-it-works
+  h3
+    font-size: 1.8rem
+  h4
+    font-weight: 700
+    font-size: 1.2em
+    letter-spacing: 1px
+img 
+  max-width: 100%
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+
+#features
+  text-align: center
+  color: #fff
+  h3
+    font-size: 1.6rem
+  .feature
+    max-width: 140px
+  .arrow
+    width: 70px
+    margin-top: 70px
+  p
+    font-weight: 300
+    font-size: 1.2rem
+#footer
+  h3
+    font-size: 1.8em
+    margin-bottom: 10px
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+  a
+    text-decoration: none
+    color: #000
+    letter-spacing: 1px
+    font-weight: bold
+    &.idevia
+      color: #1E88E5
+      font-size: 1.2rem
+    &:hover
+      text-decoration: underline
+.text-right
+  text-align: right
+.heart
+  height: 1rem
+  width: 1rem
+  vertical-align: middle
+.branding
+  padding: 50px 0
+  font-weight: bold
+.text-center
+  text-align: center
+@media (min-width: 640px)
+  .text-right-m-up
+    text-align: right
+  .text-center-m-up
+    text-align: center
+@media (max-width: 639px)
+  .text-center-m-down
+    text-align: center
+    
+  .site-nav
+    .nav-header
+      &:after
+        display: table
+        content: ""
+        clear: both
+    .nav-toggle
+      display: inline-block
+      width: 40px
+      height: 50px
+      float: right
+      position: relative
+      cursor: pointer
+      &.active
+        .line2
+          display: none
+        .line1
+          transform: rotate(45deg) translate(9px, 6px)
+        .line3
+          transform: rotate(-45deg) translate(-1px, 2px)
+      .line1, .line2, .line3
+        width: 35px
+        height: 3px
+        background-color: #000
+        margin: 6px 0
+        transition: 0.4s
+      .line1
+        margin-top: 15px
+    .nav-content
+      margin: 0 -10px
+    .nav-links
+      display: none
+      z-index: 998
+      float: none
+      padding: 0
+      margin-top: 0
+      margin-bottom: 0
+      background-color: #fff
+      li
+        display: block
+        a
+          display: block
+          text-align: center
+          padding-top: 8px
+          padding-bottom: 8px
+    
+@media (max-width: 959px)
+  .hide-m-down
+    display: none

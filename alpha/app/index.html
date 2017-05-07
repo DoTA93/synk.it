@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="synkApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Synk it</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+  <!--<link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.css">-->
+  <script src="assets/js/vendor/angular.min.js"></script>
+  <script src="assets/js/vendor/angular-route.min.js"></script>
+  <script src="assets/js/vendor/swiped.min.js"></script>
+  <script src="assets/js/vendor/dirPagination.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+  
+</head>
+<body ng-controller="AuthController">
+
+<input type="checkbox" id="nav-state" checked>
+
+<!--page-wrap-->
+<div class="page-wrap">
+  <label for="nav-state" class="toggle">☰</label>
+  <nav class="top-nav">
+    <div class="logo"><img src="assets/img/synk.it.svg" alt="synk it"></div>
+    <ul class="nav-links nav-links-right" ng-if="windowWidth > 639 ">
+      <li><a href="#">Premium <span class="premium-light on"></span></a></li>
+      <li><a ng-click="signOut()">logout</a></li>
+    </ul>
+  </nav>
+  <!--page content-->
+  <div class="page-content">
+    <div class="page-content-wrapper">
+      <div ng-view></div>
+    </div>
+  </div><!--/.page-content-->
+
+  <!--slide-nav-->
+  <div class="slide-nav">
+    <div class="profile">
+      <img ng-src="https://randomuser.me/api/portraits/men/51.jpg" alt="username" class="profile-img">
+    </div>
+    
+    <h1 class="welcome">Welcome Mortuz!</h1>
+    <ul>
+      <li><a href="#!/"><i>icon</i> Bookmarks</a></li>
+      <li><a href="#!/user/category"><i>icon</i> Category</a></li>
+      <li ng-if="windowWidth < 640"><a href="#">Premium <span class="premium-light"></span></a></li>
+      <li ng-if="windowWidth < 640"><a href="#" ng-click="signOut()">logout</a></li>
+    </ul>
+  </div><!--/.slide-nav-->
+</div><!--/.page-wrap-->  
+
+  <script src="setup.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
