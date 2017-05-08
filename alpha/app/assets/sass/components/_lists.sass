@@ -16,7 +16,7 @@
   li
     float: left
     &.column-header__name
-      width: calc(50% + 60px)
+      width: calc(45% + 60px)
     &.column-header__modified
       width: 25%
     
@@ -44,16 +44,26 @@
     
     &:hover
       .btn-edit
-        background-color: $green
-        color: #fff
-        border: 1px solid $green
+        background-color: transparent
+        color: $green
+        border: 2px solid $green
+        &:hover
+          background-color: $green
+          color: #fff
+          border: 2px solid $green
       .btn-delete
-        color: #fff
-        background-color: $red
+        color: $red
+        background-color: transparent
         border-color: $red
+        &:hover
+          color: #fff
+          background-color: $red
+          border-color: $red
 
     .btn
-      color: #7A8189 
+      color: #7A8189
+      text-decoration: none
+      cursor: pointer
       border-color: #7A8189
       border-width: 2px
       padding: 12px 14px
@@ -67,7 +77,6 @@
       &.icon-folder
         color: #009688
     .name
-      width: 50%
       display: inline-block
       margin-left: 10px
       white-space: nowrap
@@ -75,18 +84,51 @@
       text-overflow: ellipsis
       vertical-align: middle
     .modified
-      width: 25%
       display: inline-block
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
       vertical-align: middle
 
+.category
+  .name
+      width: 45%
+  .modified
+    width: 25%
+
+// bookmarks
+.bookmark-container
+  .column-header
+    li
+      &.column-header__title
+        width: 40%
+      &.column-header__category
+        width: 20%
+      &.column-header__modified
+        width: calc(20% + 10px)  
+  
+.bookmarks
+  .title-wrapper
+    width: 35%
+    margin-right: 5%
+    display: inline-block
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    vertical-align: middle
+    .title
+      vertical-align: middle
+  .category
+    width: 20%
+    display: inline-block
+  .modified
+    width: 20%
 // icons
 .icon
   &.icon-folder
     font-size: 28px
     vertical-align: middle
+    margin-right: 15px
 .arrow-up
   &:after
     content: '▲'

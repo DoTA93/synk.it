@@ -286,6 +286,41 @@ html {
   .col-gap-l12 {
     margin-left: 100%; } }
 
+.spinner {
+  animation: rotator 1.4s linear infinite;
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 20px auto; }
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(270deg); } }
+
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; }
+
+@keyframes colors {
+  0% {
+    stroke: #4285F4; }
+  100% {
+    stroke: #4285F4; } }
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187; }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg); }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg); } }
+
 .page-content {
   position: relative;
   transition: all 0.6s ease-in-out;
@@ -438,7 +473,8 @@ html {
       margin-bottom: 5px;
       position: relative;
       transition: all 150ms ease-in-out;
-      font-weight: normal; }
+      font-weight: normal;
+      text-decoration: none; }
       .auth-form-container .box .btn span {
         position: absolute;
         width: 30px;
@@ -446,8 +482,9 @@ html {
         top: 13px;
         left: 15px; }
     .auth-form-container .box .g-btn {
-      backgrond-color: #fff;
-      border: 1px solid #333; }
+      background-color: #fff;
+      border: 1px solid #333;
+      color: #333; }
       .auth-form-container .box .g-btn span {
         left: 20px;
         top: 20px;
@@ -457,7 +494,8 @@ html {
         background-color: #f2f2f2; }
     .auth-form-container .box .f-btn {
       background-color: #3b5998;
-      color: #fff; }
+      color: #fff;
+      border: 1px solid #3b5998; }
       .auth-form-container .box .f-btn:hover {
         background-color: #4264aa; }
     .auth-form-container .box .t-btn {
@@ -468,6 +506,15 @@ html {
 
 .pages {
   transition: all 2s ease-in-out; }
+
+.auth-error {
+  color: #e63022;
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: normal;
+  letter-spacing: 0.2px; }
 
 @media (max-width: 639px) {
   .toggle {
@@ -601,7 +648,7 @@ label {
   .column-header li {
     float: left; }
     .column-header li.column-header__name {
-      width: calc(50% + 60px); }
+      width: calc(45% + 60px); }
     .column-header li.column-header__modified {
       width: 25%; }
     .column-header li button {
@@ -626,15 +673,25 @@ label {
     .list-item li:last-of-type {
       border: none; }
     .list-item li:hover .btn-edit {
-      background-color: #4caf50;
-      color: #fff;
-      border: 1px solid #4caf50; }
+      background-color: transparent;
+      color: #4caf50;
+      border: 2px solid #4caf50; }
+      .list-item li:hover .btn-edit:hover {
+        background-color: #4caf50;
+        color: #fff;
+        border: 2px solid #4caf50; }
     .list-item li:hover .btn-delete {
-      color: #fff;
-      background-color: #e91e31;
+      color: #e91e31;
+      background-color: transparent;
       border-color: #e91e31; }
+      .list-item li:hover .btn-delete:hover {
+        color: #fff;
+        background-color: #e91e31;
+        border-color: #e91e31; }
     .list-item li .btn {
       color: #7A8189;
+      text-decoration: none;
+      cursor: pointer;
       border-color: #7A8189;
       border-width: 2px;
       padding: 12px 14px;
@@ -647,7 +704,6 @@ label {
       .list-item li .icon.icon-folder {
         color: #009688; }
     .list-item li .name {
-      width: 50%;
       display: inline-block;
       margin-left: 10px;
       white-space: nowrap;
@@ -655,16 +711,49 @@ label {
       text-overflow: ellipsis;
       vertical-align: middle; }
     .list-item li .modified {
-      width: 25%;
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       vertical-align: middle; }
 
+.category .name {
+  width: 45%; }
+
+.category .modified {
+  width: 25%; }
+
+.bookmark-container .column-header li.column-header__title {
+  width: 40%; }
+
+.bookmark-container .column-header li.column-header__category {
+  width: 20%; }
+
+.bookmark-container .column-header li.column-header__modified {
+  width: calc(20% + 10px); }
+
+.bookmarks .title-wrapper {
+  width: 35%;
+  margin-right: 5%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle; }
+  .bookmarks .title-wrapper .title {
+    vertical-align: middle; }
+
+.bookmarks .category {
+  width: 20%;
+  display: inline-block; }
+
+.bookmarks .modified {
+  width: 20%; }
+
 .icon.icon-folder {
   font-size: 28px;
-  vertical-align: middle; }
+  vertical-align: middle;
+  margin-right: 15px; }
 
 .arrow-up:after {
   content: '▲'; }

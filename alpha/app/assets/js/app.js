@@ -60,185 +60,252 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
   }])
   
   .factory("Auth", ["$firebaseAuth",
-  function ($firebaseAuth) {
-    return $firebaseAuth();
-  }
+    function ($firebaseAuth) {
+      return $firebaseAuth();
+    }
   ])
-  .filter('startFrom', function () {
-    return function (data, start) {
-      return data.slice(start);
-    };
-  });
 
-synkitApp.controller('HomeController', ['$scope', '$firebaseArray', '$rootScope', 'appService', 'currentAuth', function ($scope, $firebaseArray, $rootScope, appService, currentAuth) {
-  $scope.pageTitle = 'Home page';
-  $scope.addModalRequest = false;
-  $scope.editModalRequest = false;
-  $scope.url = '';
-  $scope.titleError = '';
-  $scope.urlError = '';
+  .controller('HomeController', ['$scope', '$firebaseArray', '$rootScope', 'appService', 'currentAuth', function ($scope, $firebaseArray, $rootScope, appService, currentAuth) {
+    $scope.pageTitle = 'Home page';
+    $scope.addModalRequest = false;
+    $scope.editModalRequest = false;
+    $scope.url = '';
+    $scope.titleError = '';
+    $scope.urlError = '';
 
-  var user = appService.getCurrentUser();
+    $scope.orderProperty = 'title';
 
-  const rootRef = firebase.database().ref().child(user.uid);
-  const categoryRef = rootRef.child('categories');
-  const bookmarkRef = rootRef.child('bookmarks');
+    $scope.sortByTitle = true;
+    $scope.sortByCategory = false;
+    $scope.sortByDate = false;
 
-  $scope.bookmarks = $firebaseArray(bookmarkRef);
-  $scope.categories = $firebaseArray(categoryRef);
+    $scope.loading = true;
 
-  $scope.categories.$loaded().then(function () {
-    
-  });  
+    var user = appService.getCurrentUser();
+
+    const rootRef = firebase.database().ref().child(user.uid);
+    const categoryRef = rootRef.child('categories');
+    const bookmarkRef = rootRef.child('bookmarks');
+
+    $scope.bookmarks = $firebaseArray(bookmarkRef);
+    $scope.categories = $firebaseArray(categoryRef);
+
+    $scope.categories.$loaded().then(function () {
+      $scope.loading = false;
+    });
  
-  $scope.showAddBookmarkModal = function () {
-    $scope.addModalRequest = true;
-  };
-
-  $scope.addBookmark = function (form) {
-    $scope.formData = angular.copy(form);
-    
-    var title = $scope.formData.title;
-    var url = $scope.formData.url;
-    var urlCategory = $scope.formData.urlCategory;
-   
-    if (!title || !url) {
-      
-      if (!title) {
-        $scope.titleError = 'Please enter a valid title';
-      }
-      if (!url) {
-        $scope.urlError = 'Please enter a valid Url';
-      }
-      
-      return;
-    }
-    
-    var bookmark = {
-      title: title,
-      url: url,
-      category: urlCategory
+    $scope.showAddBookmarkModal = function () {
+      $scope.addModalRequest = true;
     };
 
-    bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
-
-    $scope.bookmarks.$add(bookmark);
-    $scope.addModalRequest = false;
-  };
-
-  $scope.deleteBookamrk = function (bookmark) {
-    $scope.bookmarks.$remove(bookmark);
-  };
-
-  $scope.editBookmarkRequest = function (bookmark) {
-    $scope.form = {};
-    $scope.editModalRequest = true;
-    $scope.form.title = bookmark.title;
-    $scope.form.url = bookmark.url;
-    $scope.form.id = bookmark.$id;
-    $scope.form.urlCategories = $scope.categories;
-    $scope.form.urlCategory = $scope.categories.$getRecord(bookmark.category).$id;
-  };
-
-  $scope.editBookmark = function (form) {
-    $scope.formData = angular.copy(form);
-    var title = $scope.formData.title;
-    var url = $scope.formData.url;
-
-    if (!title || !url) {
-
-      if (!title) {
-        $scope.titleError = 'Please enter a valid title';
-      }
-      if (!url) {
-        $scope.urlError = 'Please enter a valid Url';
-      }
-
-      return;
-    }
-
-    var id = $scope.formData.id;
-    var record = $scope.bookmarks.$getRecord(id);
-    record.title = title;
-    record.url = url;
-    record.category = $scope.formData.urlCategory;
-    record.categoryName = $scope.categories.$getRecord($scope.formData.urlCategory).name; 
-
-    $scope.bookmarks.$save(record);
-
-    $scope.titleError = '';
-    $scope.urlError = '';
-    $scope.editModalRequest = false;
-  };
-
-  $scope.cancelModal = function () {
-    $scope.addModalRequest = false;
-    $scope.editModalRequest = false;
-    $scope.titleError = '';
-    $scope.urlError = '';
-  };
-}]);
-
-synkitApp.controller('AuthController', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
-
-  $scope.windowWidth = document.documentElement.clientWidth;
-
-  window.onresize = function () {
-    $scope.$apply(function () {
-      $scope.windowWidth = document.documentElement.clientWidth;
-    });
-  }
-  // signin methods
-  $scope.signInWithGoogle = function () {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/plus.login');
-
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      console.log(user);
-      $rootScope.$apply(function () {
-        $location.path('/');
-      });
+    $scope.addBookmark = function (form) {
+      $scope.formData = angular.copy(form);
       
-    }).catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
-  };
+      var title = $scope.formData.title;
+      var url = $scope.formData.url;
+      var urlCategory = $scope.formData.urlCategory;
+    
+      if (!title || !url) {
+        
+        if (!title) {
+          $scope.titleError = 'Please enter a valid title';
+        }
+        if (!url) {
+          $scope.urlError = 'Please enter a valid Url';
+        }
+        
+        return;
+      }
+      var now = new Date();
+      var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+      
+      var bookmark = {
+        title: title,
+        url: url,
+        category: urlCategory,
+        modified: today
+      };
 
-  $scope.signInWithFacebook = function () {
-    console.log('sign me up with facebook');
-  };
+      bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
 
-  $scope.signOut = function () {
-    firebase.auth().signOut().then(function () {
-      // Sign-out successful.
-      $rootScope.$apply(function () {
-        $location.path('/auth/signin');
+      $scope.bookmarks.$add(bookmark);
+      $scope.addModalRequest = false;
+
+      form.title = '';
+      form.urlCategory = '';
+      form.url = '';
+    };
+
+    $scope.deleteBookamrk = function (bookmark) {
+      $scope.bookmarks.$remove(bookmark);
+    };
+
+    $scope.editBookmarkRequest = function (bookmark) {
+      $scope.form = {};
+      $scope.editModalRequest = true;
+      $scope.form.title = bookmark.title;
+      $scope.form.url = bookmark.url;
+      $scope.form.id = bookmark.$id;
+      $scope.form.urlCategories = $scope.categories;
+      $scope.form.urlCategory = $scope.categories.$getRecord(bookmark.category).$id;
+    };
+
+    $scope.editBookmark = function (form) {
+      $scope.formData = angular.copy(form);
+      var title = $scope.formData.title;
+      var url = $scope.formData.url;
+
+      if (!title || !url) {
+
+        if (!title) {
+          $scope.titleError = 'Please enter a valid title';
+        }
+        if (!url) {
+          $scope.urlError = 'Please enter a valid Url';
+        }
+
+        return;
+      }
+
+      var now = new Date();
+      var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+
+      var id = $scope.formData.id;
+      var record = $scope.bookmarks.$getRecord(id);
+
+      record.title = title;
+      record.url = url;
+      record.modified = today;
+      record.category = $scope.formData.urlCategory;
+      record.categoryName = $scope.categories.$getRecord($scope.formData.urlCategory).name; 
+
+      $scope.bookmarks.$save(record);
+
+      $scope.titleError = '';
+      $scope.urlError = '';
+      $scope.editModalRequest = false;
+
+      form.title = '';
+      form.urlCategory = '';
+      form.url = '';
+    };
+
+    $scope.cancelModal = function () {
+      $scope.addModalRequest = false;
+      $scope.editModalRequest = false;
+      $scope.titleError = '';
+      $scope.urlError = '';
+    };
+
+    $scope.setOrderProperty = function (propertyName) {
+      
+      if ($scope.orderProperty === propertyName) {
+        $scope.orderProperty = '-' + propertyName;
+      } else if ($scope.orderProperty == '-' + propertyName) {
+        $scope.orderProperty = propertyName;
+      } else {
+        $scope.orderProperty = propertyName;
+      }
+
+      if (propertyName === 'title') {
+        $scope.sortByTitle = true;
+        $scope.sortByCategory = false;
+        $scope.sortByDate = false;
+      } else if (propertyName === 'categoryName') {
+        $scope.sortByTitle = false;
+        $scope.sortByCategory = true;
+        $scope.sortByDate = false;
+      } else {
+        $scope.sortByTitle = false;
+        $scope.sortByCategory = false;
+        $scope.sortByDate = true;
+      }
+    };
+}])
+
+  .controller('AuthController', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
+    $scope.error = '';
+
+    $scope.windowWidth = document.documentElement.clientWidth;
+
+    window.onresize = function () {
+      $scope.$apply(function () {
+        $scope.windowWidth = document.documentElement.clientWidth;
       });
-    }).catch(function (error) {
-      // An error happened.
-    });
-  };
+    }
+    // signin methods
+    $scope.signInWithGoogle = function () {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/plus.login');
 
-}]);
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        console.log(user);
+        $rootScope.$apply(function () {
+          $location.path('/');
+        });
+        
+      }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        $scope.error = '"' + email + '" is already registered with different authentication method';
+        $rootScope.$apply();
+      });
+    };
 
-synkitApp.controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth) {
+    $scope.signInWithFacebook = function () {
+      var provider = new firebase.auth.FacebookAuthProvider();
+
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+        $scope.error = '"' + email + '" is already registered with different authentication method';
+        $rootScope.$apply();
+      });
+    };
+
+    $scope.signOut = function () {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        $rootScope.$apply(function () {
+          $location.path('/auth/signin');
+        });
+      }).catch(function (error) {
+        // An error happened.
+      });
+    };
+
+}])
+
+.controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth) {
   $scope.pageTitle = 'Category Page';
 
   $scope.addCategoryModalRequest = false;
   $scope.editCategoryModalRequest = false;
 
   $scope.categoryError = '';
+
+  $scope.loading = true;
 
   $scope.sortByName = true;
   $scope.sortByDate = false;
@@ -252,6 +319,11 @@ synkitApp.controller('CategoryController', ['$scope', '$rootScope', '$firebaseAu
   var category = $firebaseArray(ref);
 
   $scope.categories = category;
+
+  $scope.categories.$loaded().then(function () {
+    $scope.loading = false;
+  });
+
 
   $scope.showAddCategoryModal = function () {
     $scope.addCategoryModalRequest = true;
@@ -275,8 +347,8 @@ synkitApp.controller('CategoryController', ['$scope', '$rootScope', '$firebaseAu
   };
 
   $scope.addCategory = function (form) {
-    var now = new Date();
-    
+
+    var now = new Date();    
     var today = now.getDate() + '/' +  ( now.getMonth() + 1) + '/' + now.getFullYear();
        
     if (!form) {

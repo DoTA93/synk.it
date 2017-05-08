@@ -9,7 +9,7 @@
         <input type="text" class="search-input" ng-model="search" placeholder="Type to search">
       </div> <!--/.action-div-->
 
-      <div class="column-header-container">
+      <div class="column-header-container" ng-show="categories.length">
         <ul class="column-header">
           <li class="column-header__name">
             <button class="name-button" ng-click="setOrderProperty('name')">Name<span ng-class="(orderProperty == 'name') ? 'arrow-up' : 'arrow-down'" ng-if="sortByName"></span>
@@ -18,7 +18,7 @@
           <li class="column-header__modified"><button class="date-button" ng-click="setOrderProperty('modified')">Modified<span ng-class="(orderProperty == 'modified') ? 'arrow-up' : 'arrow-down'" ng-if="sortByDate"></span></button></li>
           <li class="column-header__action">Action</li>
         </ul>
-      </div>
+      </div><!--/.column-header-container-->
      
       <div class="category-list">
         
@@ -34,7 +34,8 @@
               </span>                
           </li>
         </ul>
-        <p class="no-results" ng-hide="results.length">No results found</p>
+        <p class="no-results" ng-show="!results.length && !loading">No results found</p>
+        <div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>
         <dir-pagination-controls template-url="views/inc/dirPagination.tpl.html"></dir-pagination-controls>
         
       </div>
