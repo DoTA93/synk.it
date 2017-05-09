@@ -1,51 +1,52 @@
 <div class="full-wrapper">
   <div style="background-color: #fffff7">
     <h2 class="page-header">{{pageTitle}}</h2>
+    <div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>
     <div class="row">
       <div class="col-m8 col-l9">
+        <div class="main-data-container" ng-if="bookmarks.length">
+          <div class="action-div">
+            <a ng-click="showAddBookmarkModal()" class="btn">Add</a>
+            <input type="text" placeholder="search" class="" ng-model="search">
+          </div>
 
-        <div class="action-div">
-          <a ng-click="showAddBookmarkModal()" class="btn">Add</a>
-          <input type="text" placeholder="search" class="form-input" ng-model="search">
-        </div>
-
-        <div class="column-header-container bookmark-container" ng-show="bookmarks.length">
-          <ul class="column-header">
-            <li class="column-header__title">
-              <button class="name-button" ng-click="setOrderProperty('title')">Title<span ng-class="(orderProperty == 'title') ? 'arrow-up' : 'arrow-down'" ng-if="sortByTitle"></span>
+          <div class="column-header-container bookmark-container">
+            <ul class="column-header">
+              <li class="column-header__title">
+                <button class="name-button" ng-click="setOrderProperty('title')">Title<span ng-class="(orderProperty == 'title') ? 'arrow-up' : 'arrow-down'" ng-if="sortByTitle"></span>
             </button>
-            </li>
-            <li class="column-header__category">
-              <button class="name-button" ng-click="setOrderProperty('categoryName')">Category<span ng-class="(orderProperty == 'categoryName') ? 'arrow-up' : 'arrow-down'" ng-if="sortByCategory"></span>
+              </li>
+              <li class="column-header__category">
+                <button class="name-button" ng-click="setOrderProperty('categoryName')">Category<span ng-class="(orderProperty == 'categoryName') ? 'arrow-up' : 'arrow-down'" ng-if="sortByCategory"></span>
             </button>
-            </li>
-            <li class="column-header__modified">
-              <button class="date-button" ng-click="setOrderProperty('modified')">Modified<span ng-class="(orderProperty == 'modified') ? 'arrow-up' : 'arrow-down'" ng-if="sortByDate"></span></button>
-            </li>
-            <li class="column-header__action">Action</li>
-          </ul>
-        </div>
-        <!--/.column-header-container-->
-
-        <div>
-          <ul class="list-item swipeIt bookmarks">
-            <li dir-paginate="bookmark in bookmarks | filter : search | orderBy : orderProperty | itemsPerPage: 10 as results">
-              <div class="title-wrapper">
-                <span class="icon icon-folder">☀</span>
-                <span class="title"><a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a></span>
-              </div>
-              <span class="category">{{bookmark.categoryName}}</span>
-              <span class="modified">{{bookmark.modified}}</span>
-              <span class="action">
+              </li>
+              <li class="column-header__modified">
+                <button class="date-button" ng-click="setOrderProperty('modified')">Modified<span ng-class="(orderProperty == 'modified') ? 'arrow-up' : 'arrow-down'" ng-if="sortByDate"></span></button>
+              </li>
+              <li class="column-header__action">Action</li>
+            </ul>
+          </div><!--/.column-header-container-->
+          <div>
+            <ul class="list-item swipeIt bookmarks">
+              <li dir-paginate="bookmark in bookmarks | filter : search | orderBy : orderProperty | itemsPerPage: 10 as results">
+                <div class="title-wrapper">
+                  <span class="icon icon-folder">☀</span>
+                  <span class="title"><a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a></span>
+                </div>
+                <span class="category">{{bookmark.categoryName}}</span>
+                <span class="modified">{{bookmark.modified}}</span>
+                <span class="action">
                 <a class="btn btn-edit btn-green-outline" ng-click="editBookmarkRequest(bookmark)">edit</a>
                 <a class="btn btn-delete btn-red-outline" ng-click="deleteBookamrk(bookmark)">delete</a>
               </span>
-            </li>
-          </ul>
-          <p class="no-results" ng-show="!results.length && !loading">No results found</p>
-          <div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>
-          <dir-pagination-controls template-url="views/inc/dirPagination.tpl.html"></dir-pagination-controls>
-        </div>
+              </li>
+            </ul>
+            <p class="no-results" ng-show="!results.length && !loading">No results found</p>
+            <!--<div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>-->
+            <dir-pagination-controls template-url="views/inc/dirPagination.tpl.html"></dir-pagination-controls>
+          </div>
+        </div><!--/.main-data-container-->
+        
       </div>
       <!--/.col-l3-->
       <div class="col-m4 col-l3"></div>

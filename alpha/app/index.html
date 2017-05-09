@@ -16,7 +16,7 @@
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
   
 </head>
-<body ng-controller="AuthController">
+<body ng-controller="MainController">
 
 <input type="checkbox" id="nav-state" checked>
 
@@ -33,20 +33,24 @@
   <!--page content-->
   <div class="page-content">
     <div class="page-content-wrapper">
-      <div ng-view></div>
+      <div ng-view class="pages"></div>
     </div>
   </div><!--/.page-content-->
 
   <!--slide-nav-->
   <div class="slide-nav">
     <div class="profile">
-      <img ng-src="https://randomuser.me/api/portraits/men/51.jpg" alt="username" class="profile-img">
-    </div>
+      <div class="img-circle">
+        <img ng-src="{{ user.photoURL }}" alt="" class="profile-img">
+        <div ng-if="loading" ng-include="'views/inc/spinner.html'"></div>
+      </div>
+      
+    </div><!--/.profile-->
     
-    <h1 class="welcome">Welcome Mortuz!</h1>
+    <h1 class="welcome">Welcome {{user.firstName}}!</h1>
     <ul>
-      <li><a href="#!/"><i>icon</i> Bookmarks</a></li>
-      <li><a href="#!/user/category"><i>icon</i> Category</a></li>
+      <li><a href="#!/" ng-class="getPath('/')"><i>icon</i> Bookmarks</a></li>
+      <li><a href="#!/user/category" ng-class="getPath('/user/category')"><i>icon</i> Category</a></li>
       <li ng-if="windowWidth < 640"><a href="#">Premium <span class="premium-light"></span></a></li>
       <li ng-if="windowWidth < 640"><a href="#" ng-click="signOut()">logout</a></li>
     </ul>

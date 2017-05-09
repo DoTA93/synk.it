@@ -368,7 +368,10 @@ html {
       text-decoration: none;
       padding: 10px 12px;
       background-color: #585858;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-left: 3px solid transparent; }
+      .slide-nav li a.active {
+        border-left-color: #009688; }
     .slide-nav li:last-of-type a {
       border-bottom: none; }
     .slide-nav li:last-of-type:hover {
@@ -407,11 +410,15 @@ html {
   box-sizing: border-box;
   display: block;
   margin: 20px auto; }
-  .profile .profile-img {
-    border-radius: 50%;
+  .profile .img-circle {
     border: 8px solid #f7f7f7;
     width: 124px;
-    height: 124px; }
+    height: 124px;
+    border-radius: 50%; }
+    .profile .img-circle .profile-img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%; }
 
 .nav-links-right {
   float: right; }
@@ -897,3 +904,15 @@ h2 {
 
 img {
   max-width: 100%; }
+
+.pages.ng-enter {
+  opacity: 0;
+  transition: all 0.8s ease-in-out; }
+  .pages.ng-enter.ng-enter-active {
+    opacity: 1; }
+
+.pages.ng-leave {
+  opacity: 1;
+  transition: all 0s ease-in-out; }
+  .pages.ng-leave.ng-leave-active {
+    opacity: 0; }

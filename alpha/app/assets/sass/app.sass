@@ -21,4 +21,21 @@ h2
   margin-top: 0
 
 img
-  max-width: 100% 
+  max-width: 100%
+
+.pages
+  // transition: all 15s ease-in-out
+  &.ng-enter
+    // transform: translateX(200px)
+    opacity: 0
+    transition: all 0.8s ease-in-out
+    &.ng-enter-active
+      // transform: translateX(0px)
+      opacity: 1
+  &.ng-leave
+    opacity: 1
+    // transform: translateX(0px)
+    transition: all 0s ease-in-out
+    &.ng-leave-active
+      opacity: 0
+      // transform: translateX(-200px)

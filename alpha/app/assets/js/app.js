@@ -39,11 +39,11 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
 
   .run(['$rootScope', '$location', function ($rootScope, $location) {
     // Register listener to watch route changes
-    $rootScope.$on('$locationChangeStart', function ( event, next, current) {
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // $location.path('/');
-          $rootScope.user = user;
+          // $rootScope.user = user;
         } else {
           $location.path('/auth/signin');
         }
@@ -55,7 +55,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
     this.getCurrentUser = function () {
       var authObj = $firebaseAuth();
       var firebaseUser = authObj.$getAuth();
-      return firebaseUser;      
+      return firebaseUser;
     }
   }])
   
@@ -126,7 +126,11 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         modified: today
       };
 
-      bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
+      if (urlCategory = '') {
+        bookmark.categoryName = 'Uncategorised';
+      } else {
+        bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
+      }
 
       $scope.bookmarks.$add(bookmark);
       $scope.addModalRequest = false;
@@ -177,7 +181,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
       record.url = url;
       record.modified = today;
       record.category = $scope.formData.urlCategory;
-      record.categoryName = $scope.categories.$getRecord($scope.formData.urlCategory).name; 
+      record.categoryName = $scope.categories.$getRecord($scope.formData.urlCategory).name;
 
       $scope.bookmarks.$save(record);
 
@@ -190,11 +194,16 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
       form.url = '';
     };
 
-    $scope.cancelModal = function () {
+    $scope.cancelModal = function (form) {
       $scope.addModalRequest = false;
       $scope.editModalRequest = false;
+
       $scope.titleError = '';
       $scope.urlError = '';
+
+      form.title = '';
+      form.urlCategory = '';
+      form.url = '';
     };
 
     $scope.setOrderProperty = function (propertyName) {
@@ -221,10 +230,11 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         $scope.sortByDate = true;
       }
     };
-}])
+  }])
 
-  .controller('AuthController', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
+  .controller('AuthController', ['$scope', '$location', '$rootScope', 'appService', function ($scope, $location, $rootScope, appService) {
     $scope.error = '';
+    $scope.user = null;
 
     $scope.windowWidth = document.documentElement.clientWidth;
 
@@ -243,7 +253,8 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        console.log(user);
+        // console.log(user);
+        $scope.user = user;
         $rootScope.$apply(function () {
           $location.path('/');
         });
@@ -270,6 +281,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         // The signed-in user info.
         var user = result.user;
         // ...
+        $scope.user = user;
       }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -295,121 +307,161 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
       });
     };
 
-}])
+    $scope.user = appService.getCurrentUser() || 'https://randomuser.me/api/portraits/men/51.jpg';
 
-.controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth) {
-  $scope.pageTitle = 'Category Page';
+  }])
 
-  $scope.addCategoryModalRequest = false;
-  $scope.editCategoryModalRequest = false;
+  .controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth) {
+    $scope.pageTitle = 'Category Page';
 
-  $scope.categoryError = '';
-
-  $scope.loading = true;
-
-  $scope.sortByName = true;
-  $scope.sortByDate = false;
-  $scope.orderProperty = 'name';
-  
-  var user = appService.getCurrentUser();
-  
-  const rootRef = firebase.database().ref().child(user.uid);
-  const ref = rootRef.child('categories');
-
-  var category = $firebaseArray(ref);
-
-  $scope.categories = category;
-
-  $scope.categories.$loaded().then(function () {
-    $scope.loading = false;
-  });
-
-
-  $scope.showAddCategoryModal = function () {
-    $scope.addCategoryModalRequest = true;
-  };
-
-  $scope.editCategoryShow = function (category) {
-    $scope.formData = {};
-    $scope.editCategoryModalRequest = true;
-    $scope.formData.id = category.$id;
-    $scope.formData.name = category.name;
-  };
-
-  $scope.deleteCategory = function (category) {
-    $scope.categories.$remove(category);
-  };
-
-  $scope.cancelModal = function () {
     $scope.addCategoryModalRequest = false;
     $scope.editCategoryModalRequest = false;
-    $scope.categoryError = '';
-  };
 
-  $scope.addCategory = function (form) {
-
-    var now = new Date();    
-    var today = now.getDate() + '/' +  ( now.getMonth() + 1) + '/' + now.getFullYear();
-       
-    if (!form) {
-      $scope.categoryError = 'Please enter a valid name';
-      return;
-    }
-
-    var params = angular.copy(form);
-    var name = params.name;
-
-    // add category to the database
-    $scope.addCategoryModalRequest = false;
-    params.name = '';
     $scope.categoryError = '';
 
-    category.$add({
-      name: name,
-      modified: today
-    }).then(function (ref) {
-      var id = ref.key;
-      console.log(form);
-      form.name = '';
-      console.log('added with id', id);
+    $scope.loading = true;
+
+    $scope.sortByName = true;
+    $scope.sortByDate = false;
+    $scope.orderProperty = 'name';
+    
+    var user = appService.getCurrentUser();
+    
+    const rootRef = firebase.database().ref().child(user.uid);
+    const ref = rootRef.child('categories');
+
+    var category = $firebaseArray(ref);
+
+    $scope.categories = category;
+
+    $scope.categories.$loaded().then(function () {
+      $scope.loading = false;
     });
-  };
 
-  $scope.editCategory = function () {
-    var now = new Date();
-    var name = $scope.formData.name;
-    if (!name) {
-      return;
+
+    $scope.showAddCategoryModal = function () {
+      $scope.addCategoryModalRequest = true;
+    };
+
+    $scope.editCategoryShow = function (category) {
+      $scope.formData = {};
+      $scope.editCategoryModalRequest = true;
+      $scope.formData.id = category.$id;
+      $scope.formData.name = category.name;
+    };
+
+    $scope.deleteCategory = function (category) {
+      $scope.categories.$remove(category);
+    };
+
+    $scope.cancelModal = function (form) {
+      $scope.addCategoryModalRequest = false;
+      $scope.editCategoryModalRequest = false;
+      
+      form.name = '';
+      $scope.categoryError = '';
+    };
+
+    $scope.addCategory = function (form) {
+
+      var now = new Date();
+      var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+        
+      if (!form) {
+        $scope.categoryError = 'Please enter a valid name';
+        return;
+      }
+
+      var params = angular.copy(form);
+      var name = params.name;
+
+      // add category to the database
+      $scope.addCategoryModalRequest = false;
+      params.name = '';
+      $scope.categoryError = '';
+
+      category.$add({
+        name: name,
+        modified: today
+      }).then(function (ref) {
+        var id = ref.key;
+        console.log(form);
+        form.name = '';
+        console.log('added with id', id);
+      });
+    };
+
+    $scope.editCategory = function () {
+      var now = new Date();
+      var name = $scope.formData.name;
+      if (!name) {
+        return;
+      }
+
+      var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+
+      var id = $scope.formData.id;
+      var record = $scope.categories.$getRecord(id);
+
+      record.name = name;
+      record.modified = today;
+
+      $scope.categories.$save(record);
+      $scope.formData.name = '';
+      $scope.editCategoryModalRequest = false;
+    };
+
+    $scope.setOrderProperty = function (propertyName) {
+
+      if ($scope.orderProperty === propertyName) {
+        $scope.orderProperty = '-' + propertyName;
+      } else if ($scope.orderProperty == '-' + propertyName) {
+        $scope.orderProperty = propertyName;
+      } else {
+        $scope.orderProperty = propertyName;
+      }
+      if (propertyName === 'name') {
+        $scope.sortByName = true;
+        $scope.sortByDate = false;
+      } else if (propertyName === 'modified') {
+        $scope.sortByName = false;
+        $scope.sortByDate = true;
+      }
+    };
+  }])
+
+  .controller('MainController', ['$scope', '$rootScope', 'Auth', 'appService', '$location', function ($scope, $rootScope, Auth, appService, $location) {
+    $scope.windowWidth = document.documentElement.clientWidth;
+    // $scope.user = {};
+    $scope.loading = true;
+
+    window.onresize = function () {
+      $scope.$apply(function () {
+        $scope.windowWidth = document.documentElement.clientWidth;
+      });
     }
+    Auth.$waitForSignIn().then(function (user) {
+      // console.log(data);
+      $scope.user = user;
+      $scope.user.firstName = (user.displayName).split(' ')[0];
+      console.log($scope.user.firstName);
+      $scope.loading = false;
+    });
 
-    var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+    $scope.signOut = function () {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        $rootScope.$apply(function () {
+          $location.path('/auth/signin');
+        });
+      }).catch(function (error) {
+        // An error happened.
+      });
+    };
 
-    var id = $scope.formData.id;
-    var record = $scope.categories.$getRecord(id);
-
-    record.name = name;
-    record.modified = today;
-
-    $scope.categories.$save(record);
-    $scope.formData.name = '';
-    $scope.editCategoryModalRequest = false;
-  };
-
-  $scope.setOrderProperty = function (propertyName) {
-
-    if ($scope.orderProperty === propertyName) {
-      $scope.orderProperty = '-' + propertyName;
-    } else if ($scope.orderProperty == '-' + propertyName) {
-      $scope.orderProperty = propertyName;
-    } else {
-      $scope.orderProperty = propertyName;
+    $scope.getPath = function (path) {
+      return ($location.path() == path) ? 'active' : '';
     }
-    if (propertyName === 'name') {
-      $scope.sortByName = true;
-      $scope.sortByDate = false;
-    } else if (propertyName === 'modified') {
-      $scope.sortByName = false;
-      $scope.sortByDate = true;
-    }
-  };
-}]);
+    
+    // console.log(Auth);
+  }]);
