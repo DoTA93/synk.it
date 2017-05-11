@@ -49,8 +49,8 @@
     
     <h1 class="welcome">Welcome {{user.firstName}}!</h1>
     <ul>
-      <li><a href="#!/" ng-class="getPath('/')"><i>icon</i> Bookmarks</a></li>
-      <li><a href="#!/user/category" ng-class="getPath('/user/category')"><i>icon</i> Category</a></li>
+      <li><a ng-click="navigate('/')" ng-class="getPath('/')"><i>icon</i> Bookmarks</a></li>
+      <li><a ng-click="navigate('/user/category')" ng-class="getPath('/user/category')"><i>icon</i> Category</a></li>
       <li ng-if="windowWidth < 640"><a href="#">Premium <span class="premium-light"></span></a></li>
       <li ng-if="windowWidth < 640"><a href="#" ng-click="signOut()">logout</a></li>
     </ul>

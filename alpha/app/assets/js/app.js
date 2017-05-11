@@ -126,7 +126,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         modified: today
       };
 
-      if (urlCategory = '') {
+      if (!urlCategory) {
         bookmark.categoryName = 'Uncategorised';
       } else {
         bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
@@ -432,7 +432,8 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
 
   .controller('MainController', ['$scope', '$rootScope', 'Auth', 'appService', '$location', function ($scope, $rootScope, Auth, appService, $location) {
     $scope.windowWidth = document.documentElement.clientWidth;
-    // $scope.user = {};
+    
+    // $scope.user = null;
     $scope.loading = true;
 
     window.onresize = function () {
@@ -461,6 +462,13 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
 
     $scope.getPath = function (path) {
       return ($location.path() == path) ? 'active' : '';
+    }
+
+    $scope.navigate = function (path) {
+      if ($scope.windowWidth < 640) {
+        document.getElementById('nav-state').checked = true;
+      }
+      $location.path(path);
     }
     
     // console.log(Auth);

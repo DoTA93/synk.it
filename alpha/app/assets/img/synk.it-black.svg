@@ -5,6 +5,7 @@
 <style type="text/css">
 	.st0{fill:#000;}
 	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:#fff;}
 </style>
 <g>
 	<g>
@@ -33,5 +34,5 @@
 	<stop  offset="1" style="stop-color:#40C609"/>
 </radialGradient>
 <circle class="st1" cx="157.7" cy="9.5" r="9.5"/>
-<polygon class="st0" points="150.7,10 156.2,12 164.7,5.3 156.7,16 "/>
+<polygon class="st2" points="150.7,10 156.2,12 164.7,5.3 156.7,16 "/>
 </svg>
