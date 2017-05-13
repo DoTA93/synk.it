@@ -35,10 +35,17 @@
                 </div>
                 <span class="category">{{bookmark.categoryName}}</span>
                 <span class="modified">{{bookmark.modified}}</span>
-                <span class="action">
-                <a class="btn btn-edit btn-green-outline" ng-click="editBookmarkRequest(bookmark)">edit</a>
-                <a class="btn btn-delete btn-red-outline" ng-click="deleteBookamrk(bookmark)">delete</a>
-              </span>
+                <!--<span class="action dropdown">-->
+
+                <div class="action dropdown">
+                  <button class="dropbtn">Options</button>
+                  <div class="dropdown-content">
+                    <a class="btn1 bbtn-edit btn-green-outline1" ng-click="editBookmarkRequest(bookmark)">edit</a>
+                    <a class="btn1 bbtn-delete btn-red-outline1" ng-click="deleteBookamrk(bookmark)">delete</a>
+                    <a href="#" ng-click="showQrModal(bookmark)">qr code</a>
+                  </div>
+                </div>
+                                 
               </li>
             </ul>
             <p class="no-results" ng-show="!results.length && !loading">No results found</p>

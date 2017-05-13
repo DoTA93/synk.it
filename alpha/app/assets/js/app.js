@@ -1,6 +1,6 @@
 var synkitApp = angular.module('synkApp', ['ngRoute', 'ngAnimate', 'firebase', 'pagination']);
 
-synkitApp.config(['$routeProvider', function ($routeProvider) {
+synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'views/home.html',
@@ -35,6 +35,8 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
     .otherwise({
       redirectTo: '/'
     });
+  
+  // $locationProvider.html5Mode(true);
 }])
 
   .run(['$rootScope', '$location', function ($rootScope, $location) {
@@ -87,10 +89,20 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
     const categoryRef = rootRef.child('categories');
     const bookmarkRef = rootRef.child('bookmarks');
 
-    $scope.bookmarks = $firebaseArray(bookmarkRef);
+    var bookmarks = $firebaseArray(bookmarkRef);
     $scope.categories = $firebaseArray(categoryRef);
 
     $scope.categories.$loaded().then(function () {
+      
+      angular.forEach(bookmarks, function (bookmark, key) {
+        var urlCategory = bookmark.category;
+        if (urlCategory == null) {
+          bookmark.categoryName = 'Uncategorised';
+        } else {
+          bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
+        }
+      });
+      $scope.bookmarks = bookmarks;
       $scope.loading = false;
     });
  
@@ -103,7 +115,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
       
       var title = $scope.formData.title;
       var url = $scope.formData.url;
-      var urlCategory = $scope.formData.urlCategory;
+      var urlCategory = $scope.formData.urlCategory || null;
     
       if (!title || !url) {
         
@@ -126,11 +138,11 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         modified: today
       };
 
-      if (!urlCategory) {
-        bookmark.categoryName = 'Uncategorised';
-      } else {
-        bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
-      }
+      // if (!urlCategory) {
+      //   bookmark.categoryName = 'Uncategorised';
+      // } else {
+      //   bookmark.categoryName = $scope.categories.$getRecord(urlCategory).name;
+      // }
 
       $scope.bookmarks.$add(bookmark);
       $scope.addModalRequest = false;
@@ -229,6 +241,58 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         $scope.sortByCategory = false;
         $scope.sortByDate = true;
       }
+    };
+
+    $scope.showQrModal = function (bookmark) {
+      // instanciate new modal
+      var modal = new tingle.modal({
+        footer: true,
+        stickyFooter: true,
+        closeMethods: [],
+        closeLabel: "Close",
+        // cssClass: ['custom-class-1', 'custom-class-2'],
+        onOpen: function () {
+          console.log('modal open');
+        },
+        onClose: function () {
+          console.log('modal closed');
+        },
+        beforeClose: function () {
+          // here's goes some logic
+          // e.g. save content before closing the modal
+          return true; // close the modal
+          // return false; // nothing happens
+        }
+      });
+
+      // set content
+      modal.setContent('<div id="qrcode"></div><p>'+ bookmark.url +'</p>');
+
+      // add a button
+      modal.addFooterBtn('Close', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function () {
+        // here goes some logic
+        modal.close();
+      });
+
+      // add another button
+      // modal.addFooterBtn('Dangerous action !', 'tingle-btn tingle-btn--danger', function () {
+      //   // here goes some logic
+      //   modal.close();
+      // });
+
+      // open modal
+      modal.open();
+
+      var qrcode = new QRCode("qrcode", {
+        text: bookmark.url,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      qrcode.makeCode("bookmark.url");
     };
   }])
 
@@ -385,7 +449,7 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
         modified: today
       }).then(function (ref) {
         var id = ref.key;
-        console.log(form);
+        // console.log(form);
         form.name = '';
         console.log('added with id', id);
       });
@@ -442,10 +506,10 @@ synkitApp.config(['$routeProvider', function ($routeProvider) {
       });
     }
     Auth.$waitForSignIn().then(function (user) {
-      // console.log(data);
+      
       $scope.user = user;
       $scope.user.firstName = (user.displayName).split(' ')[0];
-      console.log($scope.user.firstName);
+      
       $scope.loading = false;
     });
 
