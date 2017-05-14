@@ -1,16 +1,16 @@
 <div class="full-wrapper">
   <div style="background-color: #fffff7">
     <h2 class="page-header">{{pageTitle}}</h2>
-    <div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>
+    
     <div class="row">
       <div class="col-m8 col-l9">
-        <div class="main-data-container" ng-if="bookmarks.length">
+        <div class="main-data-container">
           <div class="action-div">
             <a ng-click="showAddBookmarkModal()" class="btn">Add</a>
             <input type="text" placeholder="search" class="" ng-model="search">
           </div>
 
-          <div class="column-header-container bookmark-container">
+          <div class="column-header-container bookmark-container" ng-if="bookmarks.length">
             <ul class="column-header">
               <li class="column-header__title">
                 <button class="name-button" ng-click="setOrderProperty('title')">Title<span ng-class="(orderProperty == 'title') ? 'arrow-up' : 'arrow-down'" ng-if="sortByTitle"></span>
@@ -58,6 +58,7 @@
       <!--/.col-l3-->
       <div class="col-m4 col-l3"></div>
     </div>
+    <div ng-include="'views/inc/spinner.html'" ng-show="loading"></div>
     <div ng-include="'views/inc/addBookmarkModal.html'"></div>
     <div ng-include="'views/inc/editBookmarkModal.html'"></div>
   </div>
