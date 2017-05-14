@@ -24,7 +24,7 @@
         
         <ul  class="list-item swipeIt category">
           
-          <li dir-paginate="category in categories | filter : search | orderBy : orderProperty | itemsPerPage: 3 as results">
+          <li dir-paginate="category in categories | filter : search | orderBy : orderProperty | itemsPerPage: 10 as results">
               <span class="icon icon-folder">✉</span>
               <span class="name">{{ category.name }}</span>
               <span class="modified">{{ category.modified }}</span>

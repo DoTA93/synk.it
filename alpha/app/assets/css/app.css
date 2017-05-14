@@ -324,7 +324,7 @@ html {
 .page-content {
   position: relative;
   transition: all 0.6s ease-in-out;
-  margin-top: 60px;
+  padding-top: 50px;
   background-color: #e2e4e6; }
 
 .page-content-wrapper {
@@ -351,9 +351,10 @@ html {
 .slide-nav {
   position: fixed;
   transition: all 0.32s ease-in-out;
-  top: 50px;
+  top: 0px;
   left: 0px;
   bottom: 0;
+  padding-top: 50px;
   width: 220px;
   background-color: #333;
   z-index: 0; }
@@ -380,8 +381,6 @@ html {
 
 #nav-state {
   display: none; }
-  #nav-state:checked + .page-wrap .slide-nav {
-    z-index: 2; }
   #nav-state:checked + .page-wrap .page-content {
     padding-left: 220px; }
 
@@ -677,6 +676,8 @@ label {
     padding-top: 8px;
     padding-bottom: 8px;
     color: #7A8189; }
+    .list-item li:hover {
+      background-color: #fafafa; }
     .list-item li:last-of-type {
       border: none; }
     .list-item li:hover .btn-edit {
@@ -1174,3 +1175,62 @@ img {
   transition: all 0s ease-in-out; }
   .pages.ng-leave.ng-leave-active {
     opacity: 0; }
+
+.copyToClipboard {
+  position: relative;
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #333;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #eee;
+  background-image: linear-gradient(#fcfcfc, #eee);
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-appearance: none; }
+
+.tooltip::after {
+  position: absolute;
+  top: 100%;
+  right: 50%;
+  transform: translateX(50%);
+  margin-top: 5px;
+  z-index: 1000000;
+  display: inline-block;
+  padding: 5px 8px;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: break-word;
+  white-space: pre;
+  pointer-events: none;
+  content: attr(aria-label);
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 3px;
+  -webkit-font-smoothing: subpixel-antialiased; }
+
+.tooltip:before {
+  position: absolute;
+  z-index: 1000001;
+  width: 0;
+  height: 0;
+  color: rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  content: "";
+  border: 5px solid transparent;
+  top: auto;
+  right: 50%;
+  bottom: -5px;
+  margin-right: -5px;
+  border-bottom-color: rgba(0, 0, 0, 0.8); }

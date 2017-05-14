@@ -41,3 +41,61 @@ img
     &.ng-leave-active
       opacity: 0
       // transform: translateX(-200px)
+
+.copyToClipboard
+    position: relative
+    display: inline-block
+    padding: 6px 12px
+    font-size: 13px
+    font-weight: bold
+    line-height: 20px
+    color: #333
+    white-space: nowrap
+    vertical-align: middle
+    cursor: pointer
+    background-color: #eee
+    background-image: linear-gradient(#fcfcfc,#eee)
+    border: 1px solid #d5d5d5
+    border-radius: 3px
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    -webkit-appearance: none
+  
+.tooltip::after
+  position: absolute
+  top: 100%;
+  right: 50%;
+  transform: translateX(50%)
+  margin-top: 5px
+  z-index: 1000000
+  display: inline-block
+  padding: 5px 8px
+  color: #fff
+  text-align: center
+  text-decoration: none
+  text-shadow: none
+  text-transform: none
+  letter-spacing: normal
+  word-wrap: break-word
+  white-space: pre
+  pointer-events: none
+  content: attr(aria-label)
+  background: rgba(0,0,0,0.8)
+  border-radius: 3px
+  -webkit-font-smoothing: subpixel-antialiased
+.tooltip:before
+  position: absolute;
+  z-index: 1000001;
+  width: 0;
+  height: 0;
+  color: rgba(0,0,0,0.8);
+  pointer-events: none;
+  content: "";
+  border: 5px solid transparent
+  top: auto
+  right: 50%
+  bottom: -5px
+  margin-right: -5px
+  border-bottom-color: rgba(0,0,0,0.8)

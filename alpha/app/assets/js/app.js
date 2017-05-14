@@ -244,13 +244,16 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
     };
 
     $scope.showQrModal = function (bookmark) {
+      
+      var html = '';
+
       // instanciate new modal
       var modal = new tingle.modal({
         footer: true,
         stickyFooter: true,
         closeMethods: [],
         closeLabel: "Close",
-        // cssClass: ['custom-class-1', 'custom-class-2'],
+        cssClass: ['custom-class-1', 'custom-class-2'],
         onOpen: function () {
           console.log('modal open');
         },
@@ -258,20 +261,25 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
           console.log('modal closed');
         },
         beforeClose: function () {
-          // here's goes some logic
-          // e.g. save content before closing the modal
           return true; // close the modal
-          // return false; // nothing happens
         }
       });
 
+      html += '<div id="qrcode"></div>';
+      html += '<div class="input-group">';
+      html += '<p>'+ bookmark.url +'</p>';
+      html += '<button aria-label="Copied" ng-click="copyToClipboard()" data-clipboard-text="'+ bookmark.url +'" class="copyToClipboard" type="button">';
+      html += 'Copy to clipboard';
+      html += '</button></div>';
+
       // set content
-      modal.setContent('<div id="qrcode"></div><p>'+ bookmark.url +'</p>');
+      modal.setContent(html);
 
       // add a button
       modal.addFooterBtn('Close', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function () {
         // here goes some logic
         modal.close();
+        
       });
 
       // add another button
@@ -280,8 +288,7 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
       //   modal.close();
       // });
 
-      // open modal
-      modal.open();
+      
 
       var qrcode = new QRCode("qrcode", {
         text: bookmark.url,
@@ -293,7 +300,10 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
       });
 
       qrcode.makeCode("bookmark.url");
+      // open modal
+      modal.open();
     };
+    
   }])
 
   .controller('AuthController', ['$scope', '$location', '$rootScope', 'appService', function ($scope, $location, $rootScope, appService) {
@@ -405,6 +415,64 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
 
     $scope.showAddCategoryModal = function () {
       $scope.addCategoryModalRequest = true;
+      // var html = '';
+      // // html +='<div class="modal" ng-show="addCategoryModalRequest">';
+      // // html +='<div class="modal-content">';
+      // // html +='<div class="header">';
+      // html +='<h2>Add Category</h2>';
+      // // html +='</div>';
+      // // html +='<div class="copy">';
+      // html +='<form ng-submit="addCategory(form)" autocomplete="off">';
+      // html +='<div class="input-group">';
+      // html +='<label for="name">Category name</label>';
+      // html +='<input type="text" id="name" class="form-input" ng-model="form.name" placeholder="Enter category name">';
+      // html +='<span class="error">{{ categoryError }}</span>';
+      // html +='</div>';
+      // html +='<button type="sumbit" class="btn btn-submit">Add Category</button>';
+      // html +='</form>';
+      // html +='<button class="btn btn-cancel" ng-click="cancelModal(form)">Cancel</button>';
+      // // html +='</div>';
+      // // html +='</div>';
+      // // html +='</div>';
+      
+      
+      // // instanciate new modal
+      // var modal = new tingle.modal({
+      //   footer: true,
+      //   stickyFooter: true,
+      //   closeMethods: [],
+      //   closeLabel: "Close",
+      //   cssClass: ['custom-class-1', 'custom-class-2'],
+      //   onOpen: function () {
+      //     console.log('modal open');
+      //   },
+      //   onClose: function () {
+      //     console.log('modal closed');
+      //   },
+      //   beforeClose: function () {
+      //     return true; // close the modal
+      //   }
+      // });
+
+      // // set content
+      // modal.setContent(html);
+
+      // // add a button
+      // modal.addFooterBtn('Close', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function () {
+      //   // here goes some logic
+      //   modal.close();
+
+      // });
+
+      // // add another button
+      // // modal.addFooterBtn('Dangerous action !', 'tingle-btn tingle-btn--danger', function () {
+      // //   // here goes some logic
+      // //   modal.close();
+      // // });
+
+      // // open modal
+      // modal.open();
+
     };
 
     $scope.editCategoryShow = function (category) {

@@ -15,22 +15,24 @@ var s2 = Swiped.init({
   right: 200
 });
 
-// instanciate new modal
-// var modal = new tingle.modal({
-//   footer: true,
-//   stickyFooter: false,
-//   closeMethods: ['overlay', 'button', 'escape'],
-//   closeLabel: "Close",
-//   cssClass: ['custom-class-1', 'custom-class-2'],
-//   onOpen: function () {
-//     console.log('modal open');
-//   },
-//   onClose: function () {
-//     console.log('modal closed');
-//   },
-//   beforeClose: function () {
-//     // here's goes some logic
-//     // e.g. save content before closing the modal
-//     return true; // close the modal
-//   }
-// });
+
+
+var clipboard = new Clipboard('.copyToClipboard');
+
+clipboard.on('success', function (e) {
+
+  var element = e.trigger;
+
+  element.className += ' tooltip tooltip-s';
+  setTimeout(function () {
+    element.removeAttribute('class', '');
+    element.setAttribute('class', 'copyToClipboard');
+  }, 1000);
+
+  e.clearSelection();
+});
+
+clipboard.on('error', function (e) {
+  console.error('Action:', e.action);
+  console.error('Trigger:', e.trigger);
+});

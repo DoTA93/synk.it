@@ -1,7 +1,8 @@
 .page-content
   position: relative
   transition: all 0.6s ease-in-out 
-  margin-top: 60px
+  // margin-top: 60px
+  padding-top: 50px
   background-color: $body-bg-color
 
 .page-content-wrapper
@@ -28,9 +29,10 @@
 .slide-nav
   position: fixed
   transition: all 0.32s ease-in-out 
-  top: 50px
+  top: 0px
   left: 0px
   bottom: 0
+  padding-top: 50px
   width: 220px
   background-color: $slide-nav-bg-color
   z-index: 0
@@ -64,7 +66,6 @@
 
   &:checked + .page-wrap
     .slide-nav
-      z-index: 2
     
     .page-content
       padding-left: 220px
