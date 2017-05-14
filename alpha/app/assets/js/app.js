@@ -253,7 +253,7 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
         stickyFooter: true,
         closeMethods: [],
         closeLabel: "Close",
-        cssClass: ['custom-class-1', 'custom-class-2'],
+        // cssClass: ['custom-class-1', 'custom-class-2'],
         onOpen: function () {
           console.log('modal open');
         },
@@ -299,7 +299,7 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
         correctLevel: QRCode.CorrectLevel.H
       });
 
-      qrcode.makeCode("bookmark.url");
+      qrcode.makeCode(bookmark.url);
       // open modal
       modal.open();
     };
