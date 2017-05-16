@@ -1,8 +1,18 @@
+'use strict';
 // Initialize Firebase
+document.addEventListener('click', function (e) {
+  var checkbox = document.querySelectorAll('.js-dropdown-toggle');
+  var t = e.target;
+  for (var i = 0; i < checkbox.length; i++) {
+    if (t.getAttribute('id') != checkbox[i].getAttribute('id')) {
+      checkbox[i].checked = false;
+    }
+  }
+});
 var config = {
-  apiKey: "AIzaSyCjRbd_f7Y5Ses9v683QTG3iEVmIBRT1qA",
   authDomain: "angularauth-b59d1.firebaseapp.com",
   databaseURL: "https://angularauth-b59d1.firebaseio.com",
+  apiKey: "AIzaSyCjRbd_f7Y5Ses9v683QTG3iEVmIBRT1qA",
   projectId: "angularauth-b59d1",
   storageBucket: "angularauth-b59d1.appspot.com",
   messagingSenderId: "479677620649"

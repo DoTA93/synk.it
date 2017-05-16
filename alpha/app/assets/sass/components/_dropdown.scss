@@ -16,34 +16,55 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-    display: none;
+    display: block;
+    transform: scale(0);
+    transform-origin: 50% 50%;
     position: absolute;
     background-color: #fefefe;
-    min-width: 160px;
-    // box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 100px;
     border: 1px solid #e8e8e8;
     z-index: 1;
     padding: 10px 0;
+    top: -5px;
+    
+    a {
+        color: #3d464d;
+        padding: 5px 16px;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+        &:hover{
+            background-color: #f1f1f1;
+        }
+    }
 }
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: #3d464d;
-    padding: 5px 16px;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
+@keyframes bounce {
+    0% {
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-    right: 0;
+.js-dropdown-toggle {
+    display: none;
+    &:checked {
+        ~ .dropdown-content {
+            transform: scale(1);
+            right: 0;
+            animation-name: bounce;
+            animation-duration: 320ms;
+        }
+    }
 }

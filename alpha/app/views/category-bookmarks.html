@@ -16,10 +16,7 @@
                 <button class="name-button" ng-click="setOrderProperty('title')">Title<span ng-class="(orderProperty == 'title') ? 'arrow-up' : 'arrow-down'" ng-if="sortByTitle"></span>
             </button>
               </li>
-              <li class="column-header__category">
-                <button class="name-button" ng-click="setOrderProperty('categoryName')">Category<span ng-class="(orderProperty == 'categoryName') ? 'arrow-up' : 'arrow-down'" ng-if="sortByCategory"></span>
-            </button>
-              </li>
+
               <li class="column-header__modified">
                 <button class="date-button" ng-click="setOrderProperty('modified')">Modified<span ng-class="(orderProperty == 'modified') ? 'arrow-up' : 'arrow-down'" ng-if="sortByDate"></span></button>
               </li>
@@ -33,7 +30,6 @@
                   <span class="icon icon-folder">☀</span>
                   <span class="title"><a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a></span>
                 </div>
-                <span class="category"><a href="#!/user/category/{{bookmark.category}}">{{bookmark.categoryName}}</a></span>
                 <span class="modified">{{bookmark.modified}}</span>
                 <!--<span class="action dropdown">-->
                 

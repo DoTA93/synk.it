@@ -22,8 +22,16 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
       controller: 'AuthController'
     })
 
-    .when('/user/category', {
-      templateUrl: 'views/category.html',
+    .when('/user/category/:id?', {
+      templateUrl: function (param) {
+        var catId = param.id;
+        if (catId) {
+          return 'views/category-bookmarks.html';
+        } else {
+          return 'views/category.html';
+        }        
+      },
+      // templateUrl: 'views/category.html',
       controller: 'CategoryController',
       resolve: {
         "currentAuth": ["Auth", function (Auth) {
@@ -385,8 +393,10 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
 
   }])
 
-  .controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth) {
-    $scope.pageTitle = 'Category Page';
+  .controller('CategoryController', ['$scope', '$rootScope', '$firebaseAuth', '$firebaseArray', 'appService', 'currentAuth', '$routeParams', function ($scope, $rootScope, $firebaseAuth, $firebaseArray, appService, currentAuth, $routeParams) {
+    var categoryId = $routeParams.id;
+
+    // $scope.pageTitle = '';
 
     $scope.addCategoryModalRequest = false;
     $scope.editCategoryModalRequest = false;
@@ -398,19 +408,52 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
     $scope.sortByName = true;
     $scope.sortByDate = false;
     $scope.orderProperty = 'name';
-    
+
     var user = appService.getCurrentUser();
-    
+
     const rootRef = firebase.database().ref().child(user.uid);
-    const ref = rootRef.child('categories');
+    
 
-    var category = $firebaseArray(ref);
 
-    $scope.categories = category;
+    if (categoryId) {
 
-    $scope.categories.$loaded().then(function () {
-      $scope.loading = false;
-    });
+      const catRef = rootRef.child('categories');
+
+      var categories = $firebaseArray(catRef);
+
+      categories.$loaded().then(function (data) {
+        var record = data.$getRecord(categoryId);
+        $scope.pageTitle = 'Bookmarks under "' + record.name + '"';
+      });
+
+      const ref = rootRef.child('bookmarks');
+      var bookmarks = $firebaseArray(ref);
+      $scope.bookmarks = [];
+      
+      bookmarks.$loaded().then(function (data) {
+        angular.forEach(data, function (bookmark, key) {
+          
+          if (bookmark.category == categoryId) {
+            $scope.bookmarks.push(bookmark);
+          }
+        });
+
+        $scope.loading = false;
+      });
+      
+    } else {
+      $scope.pageTitle = 'Category Page';
+      const ref = rootRef.child('categories');
+
+      var categories = $firebaseArray(ref);
+
+      $scope.categories = categories;
+
+      $scope.categories.$loaded().then(function () {
+        $scope.loading = false;
+      });
+    }
+    
 
 
     $scope.showAddCategoryModal = function () {
@@ -560,6 +603,7 @@ synkitApp.config(['$routeProvider', '$locationProvider', function ($routeProvide
         $scope.sortByDate = true;
       }
     };
+
   }])
 
   .controller('MainController', ['$scope', '$rootScope', 'Auth', 'appService', '$location', function ($scope, $rootScope, Auth, appService, $location) {

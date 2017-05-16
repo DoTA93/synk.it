@@ -537,16 +537,15 @@ html {
     padding-left: 0; } }
 
 .modal {
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 50px 0 0 0;
   position: fixed;
-  z-index: 11;
+  left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
   width: 100%;
   max-width: 640px;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25);
-  box-sizing: border-box;
+  margin: 50px 0 0 0;
   transition: all .4s ease-in-out;
   -moz-transition: all .4s ease-in-out;
   -webkit-transition: all .4s ease-in-out; }
@@ -672,45 +671,13 @@ label {
   padding: 0; }
   .list-item li {
     border-bottom: 1px solid #E6E8EB;
-    margin-bottom: 1px;
     padding-top: 8px;
     padding-bottom: 8px;
     color: #7A8189; }
     .list-item li:hover {
-      background-color: #fafafa; }
+      background-color: #f5f5f5; }
     .list-item li:last-of-type {
       border: none; }
-    .list-item li:hover .btn-edit {
-      background-color: transparent;
-      color: #4caf50;
-      border: 2px solid #4caf50; }
-      .list-item li:hover .btn-edit:hover {
-        background-color: #4caf50;
-        color: #fff;
-        border: 2px solid #4caf50; }
-    .list-item li:hover .btn-delete {
-      color: #e91e31;
-      background-color: transparent;
-      border-color: #e91e31; }
-      .list-item li:hover .btn-delete:hover {
-        color: #fff;
-        background-color: #e91e31;
-        border-color: #e91e31; }
-    .list-item li .btn {
-      color: #7A8189;
-      text-decoration: none;
-      cursor: pointer;
-      border-color: #7A8189;
-      border-width: 2px;
-      padding: 12px 14px;
-      border-radius: 5px;
-      text-align: center;
-      vertical-align: middle;
-      font-size: 15px; }
-    .list-item li .icon {
-      margin-left: 15px; }
-      .list-item li .icon.icon-folder {
-        color: #009688; }
     .list-item li .name {
       display: inline-block;
       margin-left: 10px;
@@ -724,6 +691,22 @@ label {
       overflow: hidden;
       text-overflow: ellipsis;
       vertical-align: middle; }
+
+.btn {
+  color: #7A8189;
+  text-decoration: none;
+  cursor: pointer;
+  border-color: #7A8189;
+  border-width: 2px;
+  padding: 12px 14px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15px; }
+  .btn .icon {
+    margin-left: 15px; }
+    .btn .icon.icon-folder {
+      color: #009688; }
 
 .category .name {
   width: 45%; }
@@ -778,51 +761,6 @@ label {
   color: #e91e31;
   border: 1px solid #e91e31;
   background-color: transparent; }
-
-/* Style The Dropdown Button */
-.dropbtn {
-  color: #7A8189;
-  text-decoration: none;
-  cursor: pointer;
-  border: 2px solid #7A8189;
-  padding: 6px 14px;
-  border-radius: 0;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 14px;
-  background-color: transparent; }
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block; }
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #fefefe;
-  min-width: 160px;
-  border: 1px solid #e8e8e8;
-  z-index: 1;
-  padding: 10px 0; }
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: #3d464d;
-  padding: 5px 16px;
-  text-decoration: none;
-  display: block;
-  cursor: pointer; }
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #f1f1f1; }
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-  right: 0; }
 
 .pagination {
   height: 36px;
@@ -1150,6 +1088,69 @@ label {
     margin-right: .5rem;
     vertical-align: middle;
     font-size: 4rem; } }
+
+/* Style The Dropdown Button */
+.dropbtn {
+  color: #7A8189;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid #7A8189;
+  padding: 6px 14px;
+  border-radius: 0;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  background-color: transparent; }
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */ }
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: block;
+  transform: scale(0);
+  transform-origin: 50% 50%;
+  position: absolute;
+  background-color: #fefefe;
+  min-width: 100px;
+  border: 1px solid #e8e8e8;
+  z-index: 1;
+  padding: 10px 0;
+  top: -5px; }
+  .dropdown-content a {
+    color: #3d464d;
+    padding: 5px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer; }
+    .dropdown-content a:hover {
+      background-color: #f1f1f1; }
+
+@keyframes bounce {
+  0% {
+    transform: scale(0); }
+  80% {
+    transform: scale(1.1); }
+  100% {
+    transform: scale(1); } }
+
+.js-dropdown-toggle {
+  display: none; }
+  .js-dropdown-toggle:checked ~ .dropdown-content {
+    transform: scale(1);
+    right: 0;
+    animation-name: bounce;
+    animation-duration: 320ms; }
 
 body {
   margin: 0;
